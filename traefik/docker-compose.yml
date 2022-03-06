@@ -1,0 +1,50 @@
+version: "3.3"
+
+services:
+
+traefik:
+image: "traefik:v2.5"
+container_name: "traefik"
+command:
+- "--log.level=DEBUG"
+- "--api.insecure=true"
+- "--providers.docker=true"
+- "--providers.docker.exposedbydefault=false"
+#entrypoints
+- "--entrypoints.web.address=:80"
+- "--entrypoints.websecure.address=:443"
+- "--entrypoints.vpn-entrypoint.address=:1194/udp"
+#certificados automAticos
+- "--certificatesresolvers.myhttpchallenge.acme.httpchallenge=true"
+- "--certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web"
+#- "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+- "--certificatesresolvers.myhttpchallenge.acme.email=AnibalVaquero@usal.es"
+- "--certificatesresolvers.myhttpchallenge.acme.storage=/letsencrypt/acme.json"
+ports:
+- "80:80"
+- "443:443"
+- "1194:1194"
+- "8080:8080"
+volumes:
+- "./letsencrypt:/letsencrypt"
+- "/var/run/docker.sock:/var/run/docker.sock:ro"
+networks:
+- "traefiknet"
+labels:
+- "traefik.enalbe=true"
+- "traefik.docker.network=traefiknet"
+- "traefik.http.routers.api.service=api@internal"
+- "traefik.http.routers.api.rule=Host(`traefik.anibaltfg.es`)"
+- "traefik.http.routers.api.entrypoints=websecure"
+- "traefik.http.routers.api.tls.certresolver=myhttpchallenge"
+- "traefik.http.services.api.loadbalancer.server.port=8080"
+# global redirect to https
+- "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+- "traefik.http.routers.http-catchall.entrypoints=web"
+- "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+
+# middleware redirect
+- "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+networks:
+traefiknet:
+external: true
