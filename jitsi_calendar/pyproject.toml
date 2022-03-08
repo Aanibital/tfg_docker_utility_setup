@@ -7,9 +7,13 @@ authors = ["Anibal Vaquero <AnibalVaquero@usal.es>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 Django = "3.*,<4"
-django-admin = "^2.0.1"
-django-semantic-admin = "^0.3.1"
-django-bower = "^5.2.0"
+django-admin = "*"
+django-semantic-admin = "*"
+django-bower = "*"
+django-scheduler = "*"
+django-bootstrap-v5="*"
+bootstrap-py = "*"
+django-jquery-ui= "*"
 
 [tool.poetry.dev-dependencies]
 
