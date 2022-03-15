@@ -17,9 +17,9 @@ from django.contrib import admin
 from django.urls import include, path
 
 from calendar_users import urls as calendar_users_urls
-from schedule import urls as calendar_urls
+from calendar_utility import urls as calendar_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(calendar_users_urls), name='calendar_users'),
-    path('', include(calendar_urls), name='calendar_users'),
+    path('', include(calendar_urls), name='calendar_utility'),
 ]

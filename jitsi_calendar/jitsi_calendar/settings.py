@@ -40,11 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # calendar app
-    'django-scheduler.apps.ScheduleConfig',
-    'jquery',
-    'jquery-ui',
-    'bootstrap',
+    # djangobower app
+    'schedule',
+    'djangobower',
+    # calendar utility app
+    'calendar_utility.apps.CalendarUtilityConfig',
     # login app 
     'calendar_users.apps.CalendarUsersConfig',
 ]
@@ -146,5 +146,4 @@ BOWER_INSTALLED_APPS = (
     'jquery',
     'jquery-ui',
     'bootstrap',
-    'fullcalendar#3.8.2'
 )

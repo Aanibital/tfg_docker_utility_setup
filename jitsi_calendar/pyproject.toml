@@ -11,9 +11,6 @@ django-admin = "*"
 django-semantic-admin = "*"
 django-bower = "*"
 django-scheduler = "*"
-django-bootstrap-v5="*"
-bootstrap-py = "*"
-django-jquery-ui= "*"
 
 [tool.poetry.dev-dependencies]
 
