@@ -40,11 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # djangobower app
-    'schedule',
-    'djangobower',
     # calendar utility app
-    'calendar_utility.apps.CalendarUtilityConfig',
+    'swingtime.apps.SwingtimeConfig',
     # login app 
     'calendar_users.apps.CalendarUsersConfig',
 ]
@@ -72,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'swingtime.context_processors.current_datetime',
             ],
         },
     },
