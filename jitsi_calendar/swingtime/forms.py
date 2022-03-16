@@ -93,6 +93,10 @@ ISO_WEEKDAYS_MAP = (
     rrule.SA,
     rrule.SU
 )
+TYPE_CHOICES = (
+    ('jitsi', _('Jitsi')),
+    ('other', _('Other')),
+)
 
 MINUTES_INTERVAL = swingtime_settings.TIMESLOT_INTERVAL.seconds // 60
 SECONDS_INTERVAL = utils.time_delta_total_seconds(swingtime_settings.DEFAULT_OCCURRENCE_DURATION)
@@ -248,14 +252,22 @@ class MultipleOccurrenceForm(forms.Form):
     week_days = MultipleIntegerField(
         WEEKDAY_SHORT,
         label=_('Weekly options'),
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple(attrs={
+                "class" : "form-check-input",
+                "type" : "checkbox"
+            }
+        )
     )
 
     # monthly options
     month_option = forms.ChoiceField(
         choices=(('on', _('On the')), ('each', _('Each:'))),
         initial='each',
-        widget=forms.RadioSelect(),
+        widget=forms.RadioSelect(attrs={
+                "class" : "form-check-input",
+                "type" : "radio"
+            }
+        ),
         label=_('Monthly options')
     )
 
@@ -388,9 +400,30 @@ class EventForm(forms.ModelForm):
 
     '''
 
+    title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Title",
+                "class": "form-control"
+            }
+        )
+    )
+    description = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Description",
+                "class": "form-control"
+            }
+        )
+    )
+    event_type = forms.CharField(
+        widget=forms.Select(choices=TYPE_CHOICES,
+        )
+    )
+
     class Meta:
         model = Event
-        fields = "__all__"
+        fields = ('title', 'description', 'event_type')
 
     def __init__(self, *args, **kws):
         super().__init__(*args, **kws)

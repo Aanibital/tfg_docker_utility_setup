@@ -1,46 +1,73 @@
 {% extends "base.html" %}
 {% block title %}Monthly View{% endblock %}
 {% block content %}
-    <h3>Monthly View</h3>
-    <p><em>Click a calendar date below to add a new event</em></p>
-    <h4>
-        <a class="plain" href="{% url 'swingtime-monthly-view' last_month.year last_month.month %}" 
-           title="Last Month">&larr;</a>
-        {{ this_month|date:"F" }}
-        <a title="View {{ this_month.year}}" href="{% url 'swingtime-yearly-view' this_month.year %}">
-            {{ this_month|date:"Y" }}</a>
-        <a class="plain" href="{% url 'swingtime-monthly-view' next_month.year next_month.month %}" 
-           title="Next Month">&rarr;</a>
-    </h4>
-    <table class="month-view">
-        <thead>
-            <tr>
-                <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in calendar %}
-            <tr>
-                {% for day,items in row  %}
-                <td{% if day == today.day  %} class="today"{% endif %}>
-                {% if day %}
-                    <div class="day-ordinal">
-                        <a href="{% url 'swingtime-daily-view' this_month.year this_month.month day %}">{{ day }}</a>
-                    </div>
-                    {% if items %}
-                    <ul>{% for item in items %}
-                        <li>
-                            <a href="{{ item.get_absolute_url }}">
-                                <span class="event-times">{{ item.start_time|time }}</span>
-                                {{ item.title }}</a>
-                        </li>{% endfor %}
-                    </ul>
-                    {% endif %}
-                {% endif %}
-                </td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="container-fluid">
+        <div class="row justify-content-center text-center">
+                <h3>Monthly View</h3>
+                <p><em>Click a calendar date below to add a new event</em></p>
+        </div>
+        <div class=row>
+            <div class=card>
+                <div class="row justify-content-center text-center mt-2">
+                    <h4>
+                        <a class="plain" href="{% url 'swingtime-monthly-view' last_month.year last_month.month %}" 
+                        title="Last Month">&larr;</a>
+                        {{ this_month|date:"F" }}
+                        <a title="View {{ this_month.year}}" href="{% url 'swingtime-yearly-view' this_month.year %}">
+                            {{ this_month|date:"Y" }}</a>
+                        <a class="plain" href="{% url 'swingtime-monthly-view' next_month.year next_month.month %}" 
+                        title="Next Month">&rarr;</a>
+                    </h4>
+                </div>
+                <hr></hr>
+                <div class="table-responsive">
+                    <table class="month-view table mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Sun</th>
+                                <th class="text-center">Mon</th>
+                                <th class="text-center">Tue</th>
+                                <th class="text-center">Wed</th>
+                                <th class="text-center">Thu</th>
+                                <th class="text-center">Fri</th>
+                                <th class="text-center">Sat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in calendar %}
+                            <tr>
+                                {% for day,items in row  %}
+                                {% if day == today.day %}
+                                    <td class="today bg-light">
+                                {% else %}
+                                    <td>
+                                {% endif %}
+                                {% if day %}
+                                    <div class="card p-4 text-center">
+                                        <div class="day-ordinal">
+                                            <a  href="{% url 'swingtime-daily-view' this_month.year this_month.month day %}">{{ day }}</a>
+                                        </div>
+                                        {% if items %}
+                                        <hr></hr>
+                                        <ul>{% for item in items %}
+                                            <div class="row w-100">
+                                                    <button type="button" class="btn bg-gradient-primary" href="{{ item.get_absolute_url }}">
+                                                        <span class="event-times">{{ item.start_time|time }}</span>
+                                                        {{ item.title }}</a>
+                                            </div>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                {% endif %}
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
