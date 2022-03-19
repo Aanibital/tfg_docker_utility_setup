@@ -11,6 +11,7 @@ django-admin = "*"
 django-semantic-admin = "*"
 django-bower = "*"
 django-scheduler = "*"
+python-dateutil = "^2.8.2"
 
 [tool.poetry.dev-dependencies]
 

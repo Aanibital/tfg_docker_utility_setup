@@ -5,6 +5,7 @@ import calendar
 from collections import defaultdict
 from datetime import datetime, date, time, timedelta
 import itertools
+import pytz
 
 from django.db.models.query import QuerySet
 from django.utils.safestring import mark_safe
@@ -128,6 +129,7 @@ def create_timeslot_table(
     dt = dt or datetime.now()
     start_time = start_time.replace(tzinfo=dt.tzinfo) if not start_time.tzinfo else start_time
     dtstart = datetime.combine(dt.date(), start_time)
+    dtstart = pytz.utc.localize(dtstart)
     dtend = dtstart + end_time_delta
 
     if isinstance(items, QuerySet):
@@ -143,6 +145,7 @@ def create_timeslot_table(
         n += time_delta
 
     # fill the timeslot buckets with occurrence proxies
+    
     for item in sorted(items):
         if item.end_time <= dtstart:
             # this item began before the start of our schedle constraints

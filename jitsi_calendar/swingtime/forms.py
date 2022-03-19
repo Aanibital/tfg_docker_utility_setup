@@ -93,10 +93,6 @@ ISO_WEEKDAYS_MAP = (
     rrule.SA,
     rrule.SU
 )
-TYPE_CHOICES = (
-    ('jitsi', _('Jitsi')),
-    ('other', _('Other')),
-)
 
 MINUTES_INTERVAL = swingtime_settings.TIMESLOT_INTERVAL.seconds // 60
 SECONDS_INTERVAL = utils.time_delta_total_seconds(swingtime_settings.DEFAULT_OCCURRENCE_DURATION)
@@ -110,10 +106,8 @@ def timeslot_options(
 ):
     '''
     Create a list of time slot options for use in swingtime forms.
-
     The list is comprised of 2-tuples containing a 24-hour time value and a
     12-hour temporal representation of that offset.
-
     '''
     dt = datetime.combine(date.today(), time(0))
     dtstart = datetime.combine(dt.date(), start_time)
@@ -135,10 +129,8 @@ def timeslot_offset_options(
 ):
     '''
     Create a list of time slot options for use in swingtime forms.
-
     The list is comprised of 2-tuples containing the number of seconds since the
     start of the day and a 12-hour temporal representation of that offset.
-
     '''
     dt = datetime.combine(date.today(), time(0))
     dtstart = datetime.combine(dt.date(), start_time)
@@ -162,7 +154,6 @@ default_timeslot_offset_options = timeslot_offset_options()
 class MultipleIntegerField(forms.MultipleChoiceField):
     '''
     A form field for handling multiple integers.
-
     '''
 
     def __init__(self, choices, size=None, label=None, widget=None):
@@ -182,7 +173,6 @@ class SplitDateTimeWidget(forms.MultiWidget):
     '''
     A Widget that splits datetime input into a SelectDateWidget for dates and
     Select widget for times.
-
     '''
     def __init__(self, attrs=None):
         widgets = (
@@ -252,22 +242,14 @@ class MultipleOccurrenceForm(forms.Form):
     week_days = MultipleIntegerField(
         WEEKDAY_SHORT,
         label=_('Weekly options'),
-        widget=forms.CheckboxSelectMultiple(attrs={
-                "class" : "form-check-input",
-                "type" : "checkbox"
-            }
-        )
+        widget=forms.CheckboxSelectMultiple
     )
 
     # monthly options
     month_option = forms.ChoiceField(
         choices=(('on', _('On the')), ('each', _('Each:'))),
         initial='each',
-        widget=forms.RadioSelect(attrs={
-                "class" : "form-check-input",
-                "type" : "radio"
-            }
-        ),
+        widget=forms.RadioSelect(),
         label=_('Monthly options')
     )
 
@@ -397,33 +379,11 @@ class MultipleOccurrenceForm(forms.Form):
 class EventForm(forms.ModelForm):
     '''
     A simple form for adding and updating Event attributes
-
     '''
-
-    title = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Title",
-                "class": "form-control"
-            }
-        )
-    )
-    description = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Description",
-                "class": "form-control"
-            }
-        )
-    )
-    event_type = forms.CharField(
-        widget=forms.Select(choices=TYPE_CHOICES,
-        )
-    )
 
     class Meta:
         model = Event
-        fields = ('title', 'description', 'event_type')
+        fields = "__all__"
 
     def __init__(self, *args, **kws):
         super().__init__(*args, **kws)
@@ -433,7 +393,6 @@ class EventForm(forms.ModelForm):
 class SingleOccurrenceForm(forms.ModelForm):
     '''
     A simple form for adding and updating single Occurrence attributes
-
     '''
 
     start_time = forms.SplitDateTimeField(widget=SplitDateTimeWidget)
