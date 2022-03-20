@@ -18,4 +18,5 @@ This system is a bundle created to provide services related to jitsi video metti
 - Server with open ports on firewall (at least 80,443 and 51820)
 - Andministrator email
 ## System diagram
+![](docs/systemDiagram.png)
 
