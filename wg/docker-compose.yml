@@ -1,0 +1,38 @@
+version: "2"
+  services:
+    wg-access-server:
+    image: place1/wg-access-server:v0.4.6
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - "./wg-access-server-data:/data"
+      - "./config2.yaml:/config.yaml"
+    environment:
+      - "WG_ADMIN_USERNAME=admin"
+      - "WG_ADMIN_PASSWORD=Salamanca2022"
+      - "WG_WIREGUARD_PRIVATE_KEY=KAaW/cGPBxN8qSGzCLb5p9EtQsDOrkiVgZI8NwL9sHU="
+    ports:
+      - "8000/tcp"
+      - "51820:51820/udp"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefiknet"
+
+      - "traefik.http.routers.wg.rule=Host(`vpn.anibaltfg.es`)"
+      - "traefik.http.routers.wg.entrypoints=websecure"
+      - "traefik.http.routers.wg.tls.certresolver=myhttpchallenge"
+      - "traefik.http.routers.wg.service=wg-vpn"
+      - "traefik.http.services.wg-vpn.loadbalancer.server.port=8000"
+    networks:
+      - "traefiknet"
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+
+# shared volumes with the host
+volumes:
+  wg-access-server-data:
+    driver: local
+networks:
+  traefiknet:
+    external: true
