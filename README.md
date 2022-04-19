@@ -19,8 +19,8 @@ A VPN service that allows you to create new users really fast and share
 their credentials and provides clients for most platforms.
 
 You can find more information over on
-[wireguard web page](https://www.wireguard.com/) and also on
-[wireguard github](https://github.com/WireGuard)
+[Wireguard web page](https://www.wireguard.com/) and also on
+[Wireguard github](https://github.com/WireGuard)
 (Here you can also find the code for the clients).
 
 ### Traefik
@@ -28,8 +28,8 @@ You can find more information over on
 Reverse proxy and loader balancer.
 
 You can find more information in
-[traefik web page](https://traefik.io/) and also on 
-[traefik github](https://github.com/traefik/traefik).
+[Traefik web page](https://traefik.io/) and also on 
+[Traefik github](https://github.com/traefik/traefik).
 
 ## Quick start
 
