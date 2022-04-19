@@ -1,4 +1,0 @@
-loglevel: info
-wireguard:
-  externalHost: "38.242.195.65"
-  adminPassword: "Salamanca2022"

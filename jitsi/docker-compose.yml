@@ -211,8 +211,8 @@ services:
       - XMPP_CROSS_DOMAIN
     networks:
       meet.jitsi:
-      aliases:
-        - ${XMPP_SERVER}
+        aliases:
+          - ${XMPP_SERVER}
 
 # Focus component
   jicofo:

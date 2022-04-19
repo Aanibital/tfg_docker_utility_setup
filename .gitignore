@@ -1,2 +1,12 @@
+# Ignoring dinamically created files on wireguard
+wg/wg-access-server-data
+wg/.env
+wg/config.yaml
+# Ignoring dinamically created files on traefik
+traefik/letsencrypt
+traefik/.env
+# Ignoring dinamically created files on jitsi
+jitsi/.env
+# Ignoring dinamically created files on jitsi_calendar
 ./static
 *.sqlite3

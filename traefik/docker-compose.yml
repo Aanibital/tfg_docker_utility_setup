@@ -13,12 +13,12 @@ services:
       #entrypoints
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      #- "--entrypoints.vpn-entrypoint.address=:1194"
-      #certificados automAticos
+      # Automatic certificates creation
       - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge=true"
       - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web"
-      #- "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.myhttpchallenge.acme.email=AnibalVaquero@usal.es"
+      # Comment the following line once you are done with testing to get the real certificates
+      - "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myhttpchallenge.acme.email=${ADMIN_EMAIL}"
       - "--certificatesresolvers.myhttpchallenge.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"
@@ -35,7 +35,7 @@ services:
       - "traefik.docker.network=traefiknet"
 
       - "traefik.http.routers.api.service=api@internal"
-      - "traefik.http.routers.api.rule=Host(`traefik.anibaltfg.es`)"
+      - "traefik.http.routers.api.rule=Host(`${DOMAIN_TRAEFIK}`)"
       - "traefik.http.routers.api.entrypoints=websecure"
       - "traefik.http.routers.api.tls.certresolver=myhttpchallenge"
       - "traefik.http.services.api.loadbalancer.server.port=8080"
