@@ -2,8 +2,8 @@
 
 ## Introduction
 
-This system is a bundle created to provide very usefull services in order
-to work from a remote place to job, the provided services are:
+This system is a bundle created to provide very usefull for remote working,
+the provided services are:
 
 ### Jitsi meeting
 
@@ -37,9 +37,10 @@ This instalation guide asumes you have a correct instalation of docker and
 docker-compose, if not check 
 [how to install docker and docker-compose](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-getting-started).
 
-There are 2 main scripts:
-- start.sh: Creates all the required files, networks and containers.
-- stop.sh: Removes the networks and containers from the host.
+There are 3 main scripts:
+- start.sh: Creates all the required files and folders.
+- up.sh: Creates the networks and containers.
+- down.sh: Removes the networks and containers from the host.
 
 The main configuration parameters will be request by the start.sh script,
 but jitsi parameters have to be configured by the user on the jitsi/.env file
