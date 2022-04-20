@@ -15,7 +15,7 @@ mkdir -p traefik/letsencrypt
 echo Traefik configuration:
 echo -n "Please enter an email for the traefik certificates: "
 read adminEmail
-echo -n "Please enter your host traefik domain: "
+echo -n "Please enter host domain for Traefik: "
 read domainTraefik
 
 cat > traefik/.env << EOF1
@@ -30,7 +30,7 @@ mkdir -p wg/wg-access-server-data
 echo Wireguard configuration:
 echo -n "Please enter your host ip: "
 read hostIp
-echo -n "Please enter the Domain for VPN admin page:"
+echo -n "Please enter host domain for VPN admin page:"
 read domainVpn
 echo -n "Please enter an admin user for VPN admin page:"
 read adminUser
@@ -54,10 +54,19 @@ EOF3
 # Creation of jitsi environmental variables
 echo Generating jitsi configuration..
 cp jitsi/env.example jitsi/.env
-
-# Creation of jitsi passwords and required folders
 chmod +x jitsi/gen-passwords.sh
 ./jitsi/gen-passwords.sh
+
+sed -i s/DOCKER_HOST_ADDRESS=/DOCKER_HOST_ADDRESS=$hostIp/g jitsi/.env
+
+echo -n "Please enter host domain for Jitsi:"
+read domainJitsi
+sed -i s/PUBLIC_URL=/PUBLIC_URL=$domainJitsi/g jitsi/.env
+
+
+
+# Creation of jitsi passwords and required folders
+
 mkdir -p ~/.jitsi-meet-cfg/{web/crontabs,web/letsencrypt,transcripts,prosody/config,prosody/prosody-plugins-custom,jicofo,jvb,jigasi,jibri}
 echo Done.
 
