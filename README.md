@@ -47,18 +47,18 @@ but jitsi parameters have to be configured by the user on the jitsi/.env file
 
 
 Fist of all run start.sh:
-```
+```s
 ./start.sh
 ```
-Then change the configuration files and configuration files that you want to
-(at least jitsi/.env). Finally run up.sh:
-```
+Then change the configuration files that you want to.
+Finally run up.sh:
+```s
 ./up.sh
 ```
 
 If you want to take down the system or if something whent wrong during the
 start just use down.sh:
-```
+```s
 ./down.sh
 ```
 
@@ -85,7 +85,43 @@ Once all is in place just go to traefik/docker-compose.yml and remove the line:
     - Calendar
 - Server with open ports on firewall (at least 80,443,1000 and 51820)
 - Administrator email
+
 ## System diagram
+
 ![](docs/systemDiagram.png)
 
+## FAQ
 
+1. The first time I use the start.sh script it throws a bunch of warnings:
+This is fine, it is trying to take down services with a configuration that
+is not done at the moment
+
+2. The scripts doesnt create the services, just throws a buch of warnings:
+If you run the scripts in the following order:
+```s
+./start.sh
+./up.sh
+```
+And the warnings persist you should probably check your docker-compose version
+and update to v. 1.28+. To check your docker version use:
+```s
+docker-compose --version
+```
+To update your docker compose make sure you uninstall it and the use:
+```s
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+# If that doesnt work check that the path is right
+#To fix the issue you can create symbolic links in the right path
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+```
+3. I have commented the alternative certificates in traefik docker-compose and
+I am not getting recognised certificates: This could be cause because your
+traefik/letsencrypt/acme.json fila has a valid certificate already (the
+unrecognised one). In order to ask for a new certificate you shoul remove
+this file and restart the system using:
+```s
+./down.sh
+rm traefik/letsencrypt/acme.json
+./up.sh
+```
