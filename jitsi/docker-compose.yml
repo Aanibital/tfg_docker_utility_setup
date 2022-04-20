@@ -130,7 +130,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefiknet"
-      - "traefik.http.routers.meet.rule=Host(`meet.anibaltfg.es`)"
+      - "traefik.http.routers.meet.rule=Host(`${PUBLIC_URL}`)"
       - "traefik.http.routers.meet.entrypoints=websecure"
       - "traefik.http.routers.meet.tls.certresolver=myhttpchallenge"
     networks:
