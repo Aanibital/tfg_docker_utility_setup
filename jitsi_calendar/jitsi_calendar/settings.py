@@ -13,13 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 
-try:
-    # dateutil is an absolute requirement
-    import dateutil
-except ImportError:
-    raise ImportError('django-swingtime requires the "python-dateutil" package')
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -75,7 +68,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'swingtime.context_processors.current_datetime',
             ],
         },
     },

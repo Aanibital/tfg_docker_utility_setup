@@ -16,10 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from calendar_users import urls as calendar_users_urls
-from swingtime import urls as calendar_urls
+from meeting_list import views as meeting_list_views
+from django.contrib.auth.views import LogoutView
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(calendar_users_urls), name='calendar_users'),
-    path('', include(calendar_urls), name='swingtime'),
+    path('login/', meeting_list_views.login_view, name="login"),
+    path("logout/", LogoutView.as_view(), name="logout")
 ]
+
