@@ -48,10 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # calendar utility app
-    'swingtime.apps.SwingtimeConfig',
     # login app 
-    'calendar_users.apps.CalendarUsersConfig',
+    'meeting_list.apps.MeetingListConfig',
 ]
 
 MIDDLEWARE = [
