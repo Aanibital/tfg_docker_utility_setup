@@ -1,0 +1,75 @@
+{% extends 'layouts/base-fullscreen.html' %}
+
+{% block title %} Tables {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <h3>Events lists</h3>
+                </div>
+            </div>    
+            <div class="card-body">
+                <h4>Add new list</h4>
+                <form action="/events/" method="post">{% csrf_token %}
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                {{ form.name }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <button type="submit" value="Submit" class="btn bg-gradient-primary w-100">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h4>Lists</h4>
+            </div>
+            <div class="card-body">
+                <div class="container-fluid py-4">
+                {% if lists %}
+                    {% for list in lists %}
+                        <div class="row">
+                            <a class="text-xs font-weight-bold mb-0" href="/events/{{ list.name }}/">{{ list.name }}</a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                <p>Something went wrong.</p>
+            {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "includes/footer.html" %}
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}
+
+
+
+
+
+
+{% if lists %}
+    <ul>
+    {% for list in lists %}
+        <li><a href="/events/{{ list.name }}/">{{ list.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Something went wrong.</p>
+{% endif %}

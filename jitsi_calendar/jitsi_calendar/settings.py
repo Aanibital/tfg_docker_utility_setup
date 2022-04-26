@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # login app 
-    'meeting_list.apps.MeetingListConfig',
+    'eventlist.apps.EventListConfig',
 ]
 
 MIDDLEWARE = [

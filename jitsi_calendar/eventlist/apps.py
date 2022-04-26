@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class MeetingListConfig(AppConfig):
+class EventListConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'meeting_list'
+    name = 'eventlist'

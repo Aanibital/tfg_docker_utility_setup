@@ -1,0 +1,17 @@
+<h1>Event lists</h1>
+
+<form action="/events/{{list.name}}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
+
+{% if list %}
+    <ul>
+    {% for event in list.event_set.all %}
+        <li><a href="/events/{{ event.name }}/">{{ event.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Something went wrong.</p>
+{% endif %}
