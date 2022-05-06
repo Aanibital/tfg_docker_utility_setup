@@ -25,9 +25,9 @@ class EventList(models.Model):
 
 class Event(models.Model):
     name = models.CharField(max_length=100)
-    event_list = models.ForeignKey(EventList, on_delete=models.CASCADE)
+    event_list = models.ForeignKey(EventList, unique = False, on_delete=models.CASCADE)
     description = models.TextField()
-    creator = models.ForeignKey(User, on_delete=models.PROTECT)
+    creator = models.ForeignKey(User, unique = False, on_delete=models.PROTECT)
     date = models.DateTimeField()
     creation_date = models.DateField(auto_now_add=True)
     last_updated_date = models.DateTimeField(auto_now=True)

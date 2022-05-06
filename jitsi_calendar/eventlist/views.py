@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User as DjangoUser
+from django.core.exceptions import ObjectDoesNotExist
 
 from .forms import LoginForm, SignUpForm, addEventForm, addListForm
 from .models import User, Event, EventList
@@ -17,6 +19,14 @@ def login_view(request):
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
             user = authenticate(username=username, password=password)
+
+            # If is the first time a user logs create his profile
+            try:
+                profile = User.objects.all().get(user = user).exists()
+            except ObjectDoesNotExist:
+                profile = User(user = user)
+                profile.save()
+
             if user is not None:
                 login(request, user)
                 return redirect("/")
@@ -58,6 +68,8 @@ def detail_event_list(request, list_name):
 
     event_list = get_object_or_404(EventList.objects.all().filter(name = list_name))
 
+    #Comprobar que la lista pertenece al usuario
+
     if request.method == 'GET':    
         form = addEventForm()
         return render(
@@ -76,10 +88,10 @@ def detail_event_list(request, list_name):
                 name = form.cleaned_data['name'],
                 date = form.cleaned_data['date'],
                 description = form.cleaned_data['description'],
+                event_list = event_list,
+                creator = User.objects.all().filter(user_id = request.user.id).first()
             )
             event.save()
-            event.event_list = event_list
-            event.creator = User.objects.all().filter(user_id = request.user.id).first()
         return redirect('list_events', list_name = list_name)
 
 

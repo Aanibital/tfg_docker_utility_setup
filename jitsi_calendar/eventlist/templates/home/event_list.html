@@ -1,17 +1,78 @@
-<h1>Event lists</h1>
+{% extends 'layouts/base.html' %}
 
-<form action="/events/{{list.name}}" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit">
-</form>
-
-{% if list %}
-    <ul>
-    {% for event in list.event_set.all %}
-        <li><a href="/events/{{ event.name }}/">{{ event.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>Something went wrong.</p>
-{% endif %}
+{% block content %}
+    <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100"></div>
+    <div class="container-fluid py-4">
+        <div class="m-8">
+            <div class="card mb-1">
+                <div class="card-header">
+                    <div class="row d-flex justify-content-center">
+                        <h3 class="text-center text-uppercase">{{list.name}}</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row d-flex justify-content-center">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col">
+                                    {{ form.name }}
+                                </div>
+                                <div class="col">
+                                    {{ form.date }}
+                                </div>
+                                <div class="col">
+                                    {{ form.description }}
+                                </div><div class="col-md-auto">
+                                    <input type="submit" class="btn btn-success" value="Add">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row d-flex justify-content-center mt-6">
+                        {% if list %}
+                            <div class="card">
+                                <div class="table-responsive">
+                                    <table class="table align-items-center mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Creator</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for event in list.event_set.all %}
+                                            <tr>
+                                                <td>
+                                                  <div class="d-flex justify-content-center text-center px-2 py-1">
+                                                    <div>
+                                                        <a href="/events/{{ event.name }}/">{{ event.name }}</a>
+                                                    </div>
+                                                  </div>
+                                                </td>
+                                                <td>
+                                                  <p class="text-xs text-center font-weight-bold mb-0">{{ event.date }}</p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-xs text-center font-weight-bold mb-0">{{ event.description }}</p>
+                                                </td>
+                                                <td>
+                                                    <p class="text-xs text-center font-weight-bold mb-0">{{ event.creator.user.username }}</p>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        {% else %}
+                            <p>Something went wrong.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

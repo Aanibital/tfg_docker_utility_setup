@@ -78,10 +78,11 @@ class addEventForm(forms.Form):
         attrs={
             "placeholder": "Date",
             "class": "form-control",
+            "type": "datetime-local"
         }
     ))
 
-    description = forms.CharField(widget=forms.TextInput(
+    description = forms.CharField(required = False, widget=forms.TextInput(
         attrs={
             "placeholder": "Description",
             "class": "form-control",

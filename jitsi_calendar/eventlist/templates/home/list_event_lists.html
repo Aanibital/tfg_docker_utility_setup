@@ -1,9 +1,4 @@
-{% extends 'layouts/base-fullscreen.html' %}
-
-{% block title %} Tables {% endblock title %}
-
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% extends 'layouts/base.html' %}
 
 {% block content %}
 <div class="container-fluid">
@@ -11,65 +6,67 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <h3>Events lists</h3>
+                    <h3 class="text-center">EVENT LISTS</h3>
                 </div>
             </div>    
             <div class="card-body">
-                <h4>Add new list</h4>
-                <form action="/events/" method="post">{% csrf_token %}
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                {{ form.name }}
+                <div class="row d-flex justify-content-center">
+                    <form action="/events/" method="post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    {{ form.name }}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <button type="submit" value="Submit" class="text-uppercase btn bg-gradient-primary w-100">Create list</button>
                             </div>
                         </div>
-                        <div class="col">
-                            <button type="submit" value="Submit" class="btn bg-gradient-primary w-100">Submit</button>
+                    </form>
+                </div>
+                <div class="row d-flex justify-content-center mt-6">
+                    {% if lists %}
+                        <div class="card">
+                            <div class="table-responsive">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Lists</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for list in lists %}
+                                            <tr>
+                                                <td>
+                                                <div class="justify-content-center  px-2 py-1">
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <span>
+                                                                <a class=" text-uppercase text-xs font-weight-bold mb-0" href="/events/{{ list.name }}/">{{ list.name }}</a>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <span>
+                                                                <button type="submit" value="Submit" class="text-uppercase btn bg-gradient-danger mr-2 btn-sm">Delete</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <h4>Lists</h4>
-            </div>
-            <div class="card-body">
-                <div class="container-fluid py-4">
-                {% if lists %}
-                    {% for list in lists %}
-                        <div class="row">
-                            <a class="text-xs font-weight-bold mb-0" href="/events/{{ list.name }}/">{{ list.name }}</a>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                <p>Something went wrong.</p>
-            {% endif %}
+                    {% else %}
+                        <p>Something went wrong.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-{% include "includes/footer.html" %}
 
 {% endblock content %}
-
-<!-- Specific JS goes HERE --> 
-{% block javascripts %}{% endblock javascripts %}
-
-
-
-
-
-
-{% if lists %}
-    <ul>
-    {% for list in lists %}
-        <li><a href="/events/{{ list.name }}/">{{ list.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>Something went wrong.</p>
-{% endif %}

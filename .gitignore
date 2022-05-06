@@ -8,5 +8,5 @@ traefik/.env
 # Ignoring dinamically created files on jitsi
 jitsi/.env
 # Ignoring dinamically created files on jitsi_calendar
-./static
-*.sqlite3
+jiisi_calendar/event_list/__pycache__
+jiisi_calendar/db.sqlite3
