@@ -6,13 +6,17 @@ from eventlist import views as event_list_view
 
 urlpatterns = [
     # Admin 
-    path('accounts/admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     # Accounts
     path('accounts/login/', event_list_view.login_view, name="login"),
-    path('logout/', LogoutView.as_view(), name="logout"),
+    path('accounts/logout/', event_list_view.logout_view, name="logout"),
+    path('accounts/profile/', event_list_view.profile, name="profile"),
     # Web app
+    path('', event_list_view.index, name='index'),
     path('events/', event_list_view.list_event_lists, name='list_event_lists'),
     path('events/<str:list_name>/', event_list_view.detail_event_list, name='list_events'),
+    path('events/<str:list_name>/delete', event_list_view.delete_list, name='delete_list'),
+    path('events/<str:list_name>/delete/confirmation', event_list_view.delete_list_confirmation, name='delete_list_confirmation'),
     path('events/<str:list_name>/<str:event_name>', event_list_view.detail_event, name='detail_event'),
     # Api  
 ]

@@ -1,12 +1,12 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User as DjangoUser
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.generic import TemplateView
 
 from .forms import LoginForm, SignUpForm, addEventForm, addListForm
 from .models import User, Event, EventList
-
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -22,14 +22,14 @@ def login_view(request):
 
             # If is the first time a user logs create his profile
             try:
-                profile = User.objects.all().get(user = user).exists()
+                profile = User.objects.all().get(user = user)
             except ObjectDoesNotExist:
                 profile = User(user = user)
                 profile.save()
 
             if user is not None:
                 login(request, user)
-                return redirect("/")
+                return redirect('list_event_lists')
             else:
                 msg = 'Invalid credentials'
         else:
@@ -37,8 +37,15 @@ def login_view(request):
 
     return render(request, "accounts/login.html", {"form": form, "msg": msg})
 
+def index(request):
+    return render(request,"home/index.html")
 
-@login_required
+@login_required(login_url='/accounts/login/')
+def logout_view(request):
+    logout(request)
+    return render(request,"accounts/logout.html")
+
+@login_required(login_url='/accounts/login/')
 def list_event_lists(request):
 
     if request.method == "GET":
@@ -63,7 +70,7 @@ def list_event_lists(request):
         return redirect(list_event_lists)
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def detail_event_list(request, list_name):
 
     event_list = get_object_or_404(EventList.objects.all().filter(name = list_name))
@@ -95,11 +102,11 @@ def detail_event_list(request, list_name):
         return redirect('list_events', list_name = list_name)
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def detail_event(request, list_name, event_name):
 
-    event_list = get_object_or_404(EventList.objects.all().filter(name = list_name).first())
-    event = get_object_or_404(Event.objects.all().filter(name = event_name).first())
+    event_list = get_object_or_404(EventList, name = list_name)
+    event = get_object_or_404(Event, name = event_name)
 
     if request.method == "GET":
        
@@ -111,4 +118,54 @@ def detail_event(request, list_name, event_name):
                 "event": event,
             }
         )
+
+@login_required(login_url='/accounts/login/')
+def profile(request):
+
+    user = get_object_or_404(User, user_id = request.user.id)
+
+    if request.method == "GET":
+       
+        return render(
+            request,
+            "home/profile.html",
+            {
+                "user": request.user,
+                "profile": user,
+            }
+        )
+
+@login_required(login_url='/accounts/login/')
+def delete_list_confirmation(request, list_name):
+    
+    event_list = get_object_or_404(EventList, name = list_name)
+    user = get_object_or_404(User, user_id = request.user.id)
+
+    if(event_list in user.eventlist_set.all()):
+        return render(
+            request,
+            "home/delete_list_confirmation.html",
+            {
+                "list": event_list,
+            }
+        )
+
+    return render('403.html')
+
+
+@login_required(login_url='/accounts/login/')
+def delete_list(request, list_name):
+
+    event_list = get_object_or_404(EventList, name = list_name)
+    user = get_object_or_404(User, user_id = request.user.id)
+
+    if(event_list in user.eventlist_set.all()):
+        event_list.delete()
+        return redirect('list_event_lists')
+
+    return render('403.html')
+    
+    
+
+
 

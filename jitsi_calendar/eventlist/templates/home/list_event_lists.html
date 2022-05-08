@@ -39,15 +39,15 @@
                                             <tr>
                                                 <td>
                                                 <div class="justify-content-center  px-2 py-1">
-                                                    <div class="row">
+                                                    <div class="row d-flex">
                                                         <div class="col-8">
                                                             <span>
-                                                                <a class=" text-uppercase text-xs font-weight-bold mb-0" href="/events/{{ list.name }}/">{{ list.name }}</a>
+                                                                <a class=" text-uppercase text-xs font-weight-bold mb-0" href="{% url 'list_events' list_name=list.name %}">{{ list.name }}</a>
                                                             </span>
                                                         </div>
                                                         <div class="col-4">
                                                             <span>
-                                                                <button type="submit" value="Submit" class="text-uppercase btn bg-gradient-danger mr-2 btn-sm">Delete</button>
+                                                                <a class="text-uppercase btn bg-gradient-danger mr-2 btn-sm" href="{% url 'delete_list_confirmation' list_name=list.name %}">Delete</a>
                                                             </span>
                                                         </div>
                                                     </div>
