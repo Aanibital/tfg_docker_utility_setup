@@ -26,39 +26,31 @@
                 </div>
                 <div class="row d-flex justify-content-center mt-6">
                     {% if lists %}
-                        <div class="card">
                             <div class="table-responsive">
+                                <h5 class="text-center">Lists</h5>
                                 <table class="table align-items-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Lists</th>
-                                        </tr>
-                                    </thead>
                                     <tbody>
                                         {% for list in lists %}
                                             <tr>
                                                 <td>
-                                                <div class="justify-content-center  px-2 py-1">
-                                                    <div class="row d-flex">
-                                                        <div class="col-8">
-                                                            <span>
-                                                                <a class=" text-uppercase text-xs font-weight-bold mb-0" href="{% url 'list_events' list_name=list.name %}">{{ list.name }}</a>
-                                                            </span>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <span>
-                                                                <a class="text-uppercase btn bg-gradient-danger mr-2 btn-sm" href="{% url 'delete_list_confirmation' list_name=list.name %}">Delete</a>
-                                                            </span>
-                                                        </div>
+                                                    <div class="text-center">
+                                                        <span>
+                                                            <a class=" text-uppercase font-weight-bold mb-0" href="{% url 'list_events' list_name=list.name %}">{{ list.name }}</a>
+                                                        </span>
                                                     </div>
-                                                </div>
+                                                </td>
+                                                <td>
+                                                    <div class="text-center">
+                                                        <span>
+                                                            <a class="text-uppercase btn bg-gradient-danger mt-1 btn-sm" href="{% url 'delete_list_confirmation' list_name=list.name %}">Delete</a>
+                                                        </span>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
                     {% else %}
                         <p>Something went wrong.</p>
                     {% endif %}
