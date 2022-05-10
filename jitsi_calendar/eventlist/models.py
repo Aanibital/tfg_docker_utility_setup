@@ -31,9 +31,11 @@ class Event(models.Model):
     date = models.DateTimeField()
     creation_date = models.DateField(auto_now_add=True)
     last_updated_date = models.DateTimeField(auto_now=True)
+    completed = models.BooleanField(default=False, blank = True)
+    notes = models.TextField()
 
     def __str__(self) -> str:
-        return self.name + ' ' + self.date
+        return self.name + ' ' + str(self.date)
 
 
 

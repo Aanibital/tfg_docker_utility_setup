@@ -18,6 +18,8 @@ urlpatterns = [
     path('events/<str:list_name>/delete', event_list_view.delete_list, name='delete_list'),
     path('events/<str:list_name>/delete/confirmation', event_list_view.delete_list_confirmation, name='delete_list_confirmation'),
     path('events/<str:list_name>/<str:event_name>', event_list_view.detail_event, name='detail_event'),
+    path('events/<str:list_name>/delete/<int:event_id>', event_list_view.delete_event, name='delete_event'),
+    path('events/<str:list_name>/check/<int:event_id>', event_list_view.check_event, name='check_event'),
     # Api  
 ]
 

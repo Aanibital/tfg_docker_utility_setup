@@ -8,6 +8,8 @@ from django.views.generic import TemplateView
 from .forms import LoginForm, SignUpForm, addEventForm, addListForm
 from .models import User, Event, EventList
 
+import datetime
+
 def login_view(request):
     form = LoginForm(request.POST or None)
 
@@ -150,7 +152,7 @@ def delete_list_confirmation(request, list_name):
             }
         )
 
-    return render('403.html')
+    return render(request, 'home/403.html')
 
 
 @login_required(login_url='/accounts/login/')
@@ -163,8 +165,28 @@ def delete_list(request, list_name):
         event_list.delete()
         return redirect('list_event_lists')
 
-    return render('403.html')
+    return render(request, 'home/403.html')
+
+@login_required(login_url='/accounts/login/')
+def delete_event(request, list_name, event_id):
+    # TODO:Check for the permission and membership of the user 
+    event = get_object_or_404(Event, id = event_id)
+
+    event.delete()
     
+    return redirect('list_events', list_name = list_name)
+
+
+@login_required(login_url='/accounts/login/')
+def check_event(request, list_name, event_id):
+    # TODO:Check for the permission and membership of the user 
+    event = get_object_or_404(Event, id = event_id)
+
+    event.completed = True
+    event.notes = 'This has been checked by ' + request.user.username + ' at ' + datetime.datetime.now() 
+    event.save()
+
+    return redirect('list_events', list_name = list_name)
     
 
 

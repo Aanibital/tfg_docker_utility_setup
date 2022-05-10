@@ -36,10 +36,11 @@
                                     <table class="table align-items-center mb-0">
                                         <thead>
                                         <tr>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Creator</th>
+                                            <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Name</th>
+                                            <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Date</th>
+                                            <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Description</th>
+                                            <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Creator</th>
+                                            <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -53,13 +54,21 @@
                                                   </div>
                                                 </td>
                                                 <td>
-                                                  <p class="text-xs text-center font-weight-bold mb-0">{{ event.date }}</p>
+                                                  <p class=" text-center font-weight-bold mb-0">{{ event.date }}</p>
                                                 </td>
                                                 <td>
-                                                    <p class="text-xs text-center font-weight-bold mb-0">{{ event.description }}</p>
+                                                    <p class=" text-center font-weight-bold mb-0">{{ event.description }}</p>
                                                 </td>
                                                 <td>
-                                                    <p class="text-xs text-center font-weight-bold mb-0">{{ event.creator.user.username }}</p>
+                                                    <p class=" text-center font-weight-bold mb-0">{{ event.creator.user.username }}</p>
+                                                </td>
+                                                <td>
+                                                    <div class="text-center">
+                                                        <span>
+                                                            <a class="text-uppercase btn bg-gradient-success mt-2 btn-sm mr-1" href="{% url 'check_event' event_id=event.id list_name=list.name%}">Done</a>
+                                                            <a class="text-uppercase btn bg-gradient-danger mt-2 btn-sm me-1" href="{% url 'delete_event' event_id=event.id list_name=list.name%}">Delete</a>
+                                                        </span>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             {% endfor %}
