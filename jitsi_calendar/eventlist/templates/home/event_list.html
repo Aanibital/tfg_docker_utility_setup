@@ -65,7 +65,9 @@
                                                 <td>
                                                     <div class="text-center">
                                                         <span>
+                                                            {% if not event.completed %}
                                                             <a class="text-uppercase btn bg-gradient-success mt-2 btn-sm mr-1" href="{% url 'check_event' event_id=event.id list_name=list.name%}">Done</a>
+                                                            {% endif %}
                                                             <a class="text-uppercase btn bg-gradient-danger mt-2 btn-sm me-1" href="{% url 'delete_event' event_id=event.id list_name=list.name%}">Delete</a>
                                                         </span>
                                                     </div>

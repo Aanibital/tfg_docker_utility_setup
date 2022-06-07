@@ -9,7 +9,6 @@ python = "^3.10"
 Django = "3.*,<4"
 django-admin = "*"
 django-semantic-admin = "*"
-django-bower = "*"
 PyYAML = "^6.0"
 
 [tool.poetry.dev-dependencies]

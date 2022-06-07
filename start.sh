@@ -63,8 +63,6 @@ echo -n "Please enter host domain for Jitsi:"
 read domainJitsi
 sed -i s/PUBLIC_URL=/PUBLIC_URL=$domainJitsi/g jitsi/.env
 
-
-
 # Creation of jitsi passwords and required folders
 
 mkdir -p ~/.jitsi-meet-cfg/{web/crontabs,web/letsencrypt,transcripts,prosody/config,prosody/prosody-plugins-custom,jicofo,jvb,jigasi,jibri}

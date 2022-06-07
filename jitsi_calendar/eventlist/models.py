@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import User as DjangoUser
 
@@ -34,6 +35,10 @@ class Event(models.Model):
     completed = models.BooleanField(default=False, blank = True)
     notes = models.TextField()
 
+    def mark_as_completed(self,username):
+        self.notes = 'List'+ self.event_list.name +'This has been checked by ' + username + ' at ' + str(datetime.datetime.now())
+        self.completed = True
+        self.save()
     def __str__(self) -> str:
         return self.name + ' ' + str(self.date)
 
