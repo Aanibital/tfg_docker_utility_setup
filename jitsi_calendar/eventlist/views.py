@@ -72,6 +72,7 @@ def list_event_lists(request):
             )
             event_list.save()
             event_list.users.add(User.objects.get(user_id = request.user.id))
+            event_list.save()
         return redirect(list_event_lists)
 
 
@@ -129,7 +130,7 @@ def detail_event(request, list_name, event_name):
 @login_required(login_url='/accounts/login/')
 def profile(request):
 
-    user = User.objects.get_or_create(user=request.user)
+    user, created = User.objects.get_or_create(user=request.user)
 
     if request.method == "GET":
        
@@ -137,7 +138,6 @@ def profile(request):
             request,
             "home/profile.html",
             {
-                "user": request.user,
                 "profile": user,
             }
         )
@@ -146,7 +146,10 @@ def profile(request):
 def delete_list_confirmation(request, list_name):
     
     event_list = get_object_or_404(EventList, name = list_name)
-    user = User.objects.get_or_create(user=request.user)
+    user, created = User.objects.get_or_create(user=request.user)
+
+    if created or not event_list.users.filter(id=user.id).exists():
+        return render(request, 'home/403.html')
 
     if(event_list in user.eventlist_set.all()):
         return render(
@@ -157,26 +160,29 @@ def delete_list_confirmation(request, list_name):
             }
         )
 
-    return render(request, 'home/403.html')
-
 
 @login_required(login_url='/accounts/login/')
 def delete_list(request, list_name):
 
     event_list = get_object_or_404(EventList, name = list_name)
-    user = User.objects.get_or_create(user=request.user)
+    user, created = User.objects.get_or_create(user=request.user)
 
-    if(event_list in user.eventlist_set.all()):
-        event_list.delete()
-        return redirect('list_event_lists')
+    if created or not event_list.users.filter(id=user.id).exists():
+        return render(request, 'home/403.html')
 
-    return render(request, 'home/403.html')
+    event_list.delete()
+    return redirect('list_event_lists')
 
 @login_required(login_url='/accounts/login/')
 def delete_event(request, list_name, event_id):
-    # TODO:Check for the permission and membership of the user 
+    
+    event_list = get_object_or_404(EventList, name = list_name)
     event = get_object_or_404(Event, id = event_id)
-    user = User.objects.get_or_create(user=request.user)
+    user, created = User.objects.get_or_create(user=request.user)
+
+    if created or not event_list.users.filter(id=user.id).exists():
+        return render(request, 'home/403.html')
+
     event.delete()
     
     return redirect('list_events', list_name = list_name)
@@ -186,11 +192,14 @@ def delete_event(request, list_name, event_id):
 def check_event(request, list_name, event_id):
     # TODO:Check for the permission and membership of the user 
 
-    event = get_object_or_404(Event, id = event_id) 
-    print (event.completed)
-    user = User.objects.get_or_create(user=request.user)
+    event_list = get_object_or_404(EventList, name = list_name)
+    event = get_object_or_404(Event, id = event_id)
+    user, created = User.objects.get_or_create(user=request.user)
+
+    if created or not event_list.users.filter(id=user.id).exists():
+        return render(request, 'home/403.html')
+
     event.mark_as_completed(request.user.username)
-    print (event.completed)
 
     return redirect('list_events', list_name = list_name)
     
