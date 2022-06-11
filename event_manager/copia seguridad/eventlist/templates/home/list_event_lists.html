@@ -1,0 +1,66 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <h3 class="text-center">EVENT LISTS</h3>
+                </div>
+            </div>    
+            <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                    <form action="/events/" method="post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    {{ form.name }}
+                                </div>
+                            </div>
+                            <div class="col">
+                                <button type="submit" value="Submit" class="text-uppercase btn bg-gradient-primary w-100">Create list</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row d-flex justify-content-center mt-6">
+                    {% if lists %}
+                            <div class="table-responsive">
+                                <h5 class="text-center">Lists</h5>
+                                <table class="table align-items-center mb-0">
+                                    <tbody>
+                                        {% for list in lists %}
+                                            <tr>
+                                                <td>
+                                                    <div class="text-center">
+                                                        <span>
+                                                            <a class=" text-uppercase font-weight-bold mb-0" href="{% url 'list_events' list_name=list.name %}">{{ list.name }}</a>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="text-center">
+                                                        <span>
+                                                            <a class="text-uppercase btn bg-gradient-danger mt-1 btn-sm" href="{% url 'delete_list_confirmation' list_name=list.name %}">Delete</a>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                    {% else %}
+                    <div class="text-center">
+                        <p>You have no lists.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
