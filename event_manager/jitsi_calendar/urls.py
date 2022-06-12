@@ -2,7 +2,14 @@ from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import include, path
 
+from rest_framework import routers
+
 from eventlist import views as event_list_view
+
+router = routers.DefaultRouter()
+router.register(r'eventlist', event_list_view.EventListViewSet)
+router.register(r'event', event_list_view.EventViewSet)
+
 
 urlpatterns = [
     # Admin 
@@ -21,5 +28,7 @@ urlpatterns = [
     path('events/<str:list_name>/delete/<int:event_id>', event_list_view.delete_event, name='delete_event'),
     path('events/<str:list_name>/check/<int:event_id>', event_list_view.check_event, name='check_event'),
     # Api  
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 

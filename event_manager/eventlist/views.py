@@ -1,3 +1,4 @@
+# Django imports
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -5,10 +6,16 @@ from django.contrib.auth.models import User as DjangoUser
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import TemplateView
 
+# Django rest framework imports
+from rest_framework import viewsets
+from rest_framework import permissions
+
+# Event list imports
 from .forms import LoginForm, SignUpForm, addEventForm, addListForm
 from .models import User, Event, EventList
+from .serializers import EventListSerializer, EventSerializer
 
-import datetime
+
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -204,5 +211,13 @@ def check_event(request, list_name, event_id):
     return redirect('list_events', list_name = list_name)
     
 
+class EventListViewSet(viewsets.ModelViewSet):
+    queryset = EventList.objects.all()
+    serializer_class = EventListSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
+class EventViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    permission_classes = [permissions.IsAuthenticated]

@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # login app 
     'eventlist.apps.EventListConfig',
+    # Django rest framework
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

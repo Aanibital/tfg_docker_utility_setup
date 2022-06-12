@@ -1,5 +1,5 @@
 {% extends 'layouts/base-fullscreen.html' %}
-
+{% load i18n %}
 {% block title %} Dashboard {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
@@ -21,7 +21,7 @@
                 <img src="/static/assets/img/logos/jitsi-logo.png" ></img>
               </div>
               <div class="card-body">
-                <h5 class="text-center"> Access to a videocall using its name.  </h5>
+                <h5 class="text-center"> {% translate "Access to a videocall using its name." %}  </h5>
               </div>
             </div>
           </div>
@@ -31,7 +31,7 @@
                 <img src="/static/assets/img/logos/wireguard-logo.png" width = "150" height = "150"></img>
               </div>
               <div class="card-body">
-                  <h5 class="text-center"> Vpn dashboard to create credentials for new users. </h5>
+                  <h5 class="text-center"> {% translate "Vpn dashboard to create credentials for new users." %} </h5>
               </div>
             </div>
           </div>
@@ -41,7 +41,7 @@
                 <img src="/static/assets/img/logos/traefik-logo.png" width = "107" height = "160"></img>
               </div>
               <div class="card-body">
-                  <h5 class="text-center"> Check for the status of the reverse proxy. </h5>
+                  <h5 class="text-center"> {% translate "Check for the status of the reverse proxy." %} </h5>
               </div>
             </div>
           </div>
@@ -53,7 +53,7 @@
                 <h3 class="text-center text-uppercase">Event list</h3>
               </div>
               <div class="card-body">
-                <h5 class="text-center"> Schedule your task and events.  </h5>
+                <h5 class="text-center"> {% translate "Schedule your task and events." %}  </h5>
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@
                 <h3 class="text-center text-uppercase">Event list admin page</h3>
               </div>
               <div class="card-body">
-                  <h5 class="text-center"> Admin objects from event list. </h5>
+                  <h5 class="text-center"> {% translate "Admin objects from event list." %}  </h5>
               </div>
             </div>
           </div>

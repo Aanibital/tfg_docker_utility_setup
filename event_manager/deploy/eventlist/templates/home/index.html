@@ -7,7 +7,7 @@
 
 {% block content %}
 
-    <div class="container-fluid mt-8">
+    <div class="container-fluid mt-2">
 
       <div class="card-header">
         <h1 class="text-center text-upercase mb-4 display-1">Docker utility to remote work setup</h1>
@@ -26,12 +26,12 @@
             </div>
           </div>
           <div class="col m-2">
-            <div class="card h-100" onclick="location.href='https://vpn.anibaltfg.es';" style="cursor: pointer;">
+            <div class="card h-100" onclick="location.href='https://vpn.anibaltfg.es/';" style="cursor: pointer;">
               <div class="card-head text-center">
                 <img src="/static/assets/img/logos/wireguard-logo.png" width = "" height = "150"></img>
               </div>
               <div class="card-body">
-                  <h5 class="text-center"> Vpn dashboard to create credentials for new users. </h5>
+                  <h5 class="text-center"> VPN dashboard for user credential creation. </h5>
               </div>
             </div>
           </div>
@@ -66,6 +66,34 @@
               </div>
               <div class="card-body">
                   <h5 class="text-center"> Admin objects from event list. </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col m-2">
+            <div class="card">
+              <div class="card-head text-center">
+                <h3>Event manager REST interactive interface</h3>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col m-2">
+                    <div class="card text-center" onclick="location.href='/api'" style="cursor: pointer;">
+                      <h4>Root</h4>
+                    </div>
+                  </div>
+                  <div class="col m-2">
+                    <div class="card text-center" onclick="location.href='/api/event'" style="cursor: pointer;">
+                      <h4>Events</h4>
+                    </div>
+                  </div>
+                  <div class="col m-2">
+                    <div class="card text-center" onclick="location.href='/api/eventlist'" style="cursor: pointer;">
+                      <h4>Event lists</h4>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

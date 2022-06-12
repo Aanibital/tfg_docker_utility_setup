@@ -82,6 +82,18 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "djangorestframework"
+version = "3.13.1"
+description = "Web APIs for Django, made easy."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+django = ">=2.2"
+pytz = "*"
+
+[[package]]
 name = "psycopg2"
 version = "2.9.3"
 description = "psycopg2 - Python-PostgreSQL Database Adapter"
@@ -132,7 +144,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "565a0ae1e3ecff523bb337a7e07684864f2650464ce9a374259663931e832d6f"
+content-hash = "1c79991db4f2558693f2d90ff3787e02c0b02f236ffdc7ab1bcbe755d41eebbc"
 
 [metadata.files]
 asgiref = [
@@ -162,6 +174,10 @@ django-semantic-admin = [
 django-six = [
     {file = "django-six-1.0.4.tar.gz", hash = "sha256:b05c96f5a7dbdcf9b513748df27421e8d63e586399bac80a928a29d97d78d450"},
     {file = "django_six-1.0.4-py2.py3-none-any.whl", hash = "sha256:d307483f3591fa3b471a3724659710229ea3127e112499f2b6f7fa7faa1e27e4"},
+]
+djangorestframework = [
+    {file = "djangorestframework-3.13.1-py3-none-any.whl", hash = "sha256:24c4bf58ed7e85d1fe4ba250ab2da926d263cd57d64b03e8dcef0ac683f8b1aa"},
+    {file = "djangorestframework-3.13.1.tar.gz", hash = "sha256:0c33407ce23acc68eca2a6e46424b008c9c02eceb8cf18581921d0092bc1f2ee"},
 ]
 psycopg2 = [
     {file = "psycopg2-2.9.3-cp310-cp310-win32.whl", hash = "sha256:083707a696e5e1c330af2508d8fab36f9700b26621ccbcb538abe22e15485362"},

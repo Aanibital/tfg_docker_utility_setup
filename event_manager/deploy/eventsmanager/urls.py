@@ -2,10 +2,17 @@ from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import include, path
 
+from rest_framework import routers
+
 from eventlist import views as event_list_view
 
+router_drf = routers.DefaultRouter()
+router_drf.register(r'eventlist', event_list_view.EventListViewSet)
+router_drf.register(r'event', event_list_view.EventViewSet)
+
+
 urlpatterns = [
-    # Admin
+    # Admin 
     path('admin/', admin.site.urls),
     # Accounts
     path('accounts/login/', event_list_view.login_view, name="login"),
@@ -20,5 +27,9 @@ urlpatterns = [
     path('events/<str:list_name>/<str:event_name>', event_list_view.detail_event, name='detail_event'),
     path('events/<str:list_name>/delete/<int:event_id>', event_list_view.delete_event, name='delete_event'),
     path('events/<str:list_name>/check/<int:event_id>', event_list_view.check_event, name='check_event'),
-    # Api
+    # Api  
+    path('api/', include(router_drf.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
+
+handler404 = "eventlist.views.page_not_found_view"
