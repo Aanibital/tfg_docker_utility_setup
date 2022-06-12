@@ -118,16 +118,18 @@ def detail_event_list(request, list_name):
 
 
 @login_required(login_url='/accounts/login/')
-def detail_event(request, list_name, event_name):
+def detail_event(request, list_name, event_id):
 
     event_list = get_object_or_404(EventList, name = list_name)
-    event = get_object_or_404(Event, name = event_name)
+    event = get_object_or_404(Event, id = event_id)
 
-    if request.method == "GET":
-       
+    if event.event_list != event_list:
+        return render(request,'home/404.html')
+
+    if request.method == "GET":  
         return render(
             request,
-            "home/event_detail.hmtl",
+            'home/event_detail.html',
             {
                 "list": event_list,
                 "event": event,
