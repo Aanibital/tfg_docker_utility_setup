@@ -193,7 +193,7 @@ def edit_list(request, list_name):
         form = EditListForm(instance = event_list)
         return render(request, 'home/edit_list.html', {'form':form, 'list':event_list})
     if request.method == 'POST':
-        form = EditListForm(request.POST)
+        form = EditListForm(request.POST, instance = event_list)
         if form.is_valid():
             form.save()
     return redirect('list_event_lists')
