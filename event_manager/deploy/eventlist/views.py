@@ -181,7 +181,7 @@ def delete_list(request, list_name):
     return redirect('list_event_lists')
 
 @login_required(login_url='/accounts/login/')
-def delete_list(request, list_name):
+def edit_list(request, list_name):
 
     event_list = get_object_or_404(EventList, name = list_name)
     user, created = User.objects.get_or_create(user=request.user)

@@ -92,5 +92,6 @@ class addEventForm(forms.Form):
     ))
 
 class EditListForm(forms.ModelForm):
-    model = EventList
-    fields = ['name', 'users']
+    class Meta:
+        model = EventList
+        fields = ['name', 'users']
