@@ -11,7 +11,7 @@ from rest_framework import viewsets
 from rest_framework import permissions
 
 # Event list imports
-from .forms import LoginForm, SignUpForm, addEventForm, addListForm
+from .forms import LoginForm, SignUpForm, addEventForm, addListForm, EditListForm
 from .models import User, Event, EventList
 from .serializers import EventListSerializer, EventSerializer
 
@@ -178,6 +178,26 @@ def delete_list(request, list_name):
         return render(request, 'home/403.html')
 
     event_list.delete()
+    return redirect('list_event_lists')
+
+@login_required(login_url='/accounts/login/')
+def delete_list(request, list_name):
+
+    event_list = get_object_or_404(EventList, name = list_name)
+    user, created = User.objects.get_or_create(user=request.user)
+
+    if created or not event_list.users.filter(id=user.id).exists():
+        return render(request, 'home/403.html')
+
+    if request.method == 'GET':
+        form = EditListForm(event_list)
+        return render(request, 'home/edit_list.html', {'form':form, 'list':event_list})
+    if request.method == 'POST':
+        form = EditListForm(request.POST)
+        if form.is_valid():
+            event_list.name = form.cleaned_data['name']
+            event_list.users = form.cleaned_data['users']
+            event_list.save()
     return redirect('list_event_lists')
 
 @login_required(login_url='/accounts/login/')

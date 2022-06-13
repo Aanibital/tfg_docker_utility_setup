@@ -1,0 +1,30 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <h3 class="text-center">{{list.name}}</h3>
+                </div>
+            </div>    
+            <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                    <form action="/events/" method="post">{% csrf_token %}
+                        {% for field in form %}
+                        <div class="row">
+                            {{field}}
+                        </div>
+                        <div class="row">
+                            <button type="submit" value="Submit" class="text-uppercase btn bg-gradient-primary w-100">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
