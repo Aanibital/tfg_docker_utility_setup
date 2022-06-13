@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'eventlist.apps.EventListConfig',
     # Django rest framework
     'rest_framework',
+    # Django forms is listed last to change the widgets
+    'django.forms',
 ]
 
 MIDDLEWARE = [
