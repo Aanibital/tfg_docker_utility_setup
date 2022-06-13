@@ -56,10 +56,8 @@ def logout_view(request):
 def list_event_lists(request):
 
     user, created = User.objects.get_or_create(user=request.user)
-    print(user)
     if request.method == "GET":
         form = addListForm()
-        print(User._meta.get_fields())
         return render(
             request,
             "home/list_event_lists.html",
