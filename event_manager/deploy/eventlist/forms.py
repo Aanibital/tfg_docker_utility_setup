@@ -98,7 +98,11 @@ class EditListForm(forms.ModelForm):
 
 class EditEventForm(forms.ModelForm):
 
-    description = forms.CharField(required = False, widget=forms.Textarea())
+    description = forms.CharField(required = False, widget=forms.Textarea(
+         attrs={
+            "class": "form-control",
+        }
+    ))
 
     class Meta:
         model = Event
