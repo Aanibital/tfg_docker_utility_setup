@@ -195,9 +195,7 @@ def edit_list(request, list_name):
     if request.method == 'POST':
         form = EditListForm(request.POST)
         if form.is_valid():
-            event_list.name = form.cleaned_data['name']
-            event_list.users = form.cleaned_data['users']
-            event_list.save()
+            form.save()
     return redirect('list_event_lists')
 
 @login_required(login_url='/accounts/login/')

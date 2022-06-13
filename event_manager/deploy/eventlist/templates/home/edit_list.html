@@ -12,11 +12,14 @@
             <div class="card-body">
                 <div class="row d-flex justify-content-center">
                     <form action="/events/" method="post">{% csrf_token %}
-                        {% for field in form %}
-                        <div class="row">
-                            {{field}}
+                        <div class="form-group">
+                            <label>Name</label>
+                            {{form.name}}
                         </div>
-                        {% endfor %}
+                        <div class="form-group">
+                            <label>Users</label>
+                            {{form.users}}
+                        </div>
                         <div class="row">
                             <button type="submit" value="Submit" class="text-uppercase btn bg-gradient-primary w-100">Save</button>
                         </div>
