@@ -104,6 +104,13 @@ class EditEventForm(forms.ModelForm):
         }
     ))
 
+    date = forms.DateTimeField(widget=forms.DateTimeInput(
+        attrs={
+            "class": "form-control",
+            "type": "datetime-local"
+        }
+    ))
+
     class Meta:
         model = Event
         fields = ['name', 'description', 'date']
