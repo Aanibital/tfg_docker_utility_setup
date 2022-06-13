@@ -42,17 +42,10 @@
                                                 <td>
                                                     <div class="text-center">
                                                         <span>
-                                                            <a class="text-uppercase btn bg-gradient-danger mt-1 btn-sm" href="{% url 'delete_list_confirmation' list_name=list.name %}">Delete</a>
+                                                            <a class="text-uppercase btn bg-gradient-danger mt-2 btn-sm mr-1" href="{% url 'delete_list_confirmation' list_name=list.name %}">Delete</a>
+                                                            <a class="text-uppercase btn bg-gradient-primary mt-2 btn-sm me-1" href="{% url 'detail_list' list_name=list.name %}">Edit</a>
                                                         </span>
                                                     </div>
-                                                </td>
-                                                <td>
-                                                    <div class="text-center">
-                                                        <span>
-                                                            <a class="text-uppercase btn bg-gradient-primary mt-1 btn-sm" href="{% url 'detail_list' list_name=list.name %}">Edit</a>
-                                                        </span>
-                                                    </div>
-                                                </td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>

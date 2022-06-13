@@ -193,7 +193,8 @@ def detail_list(request, list_name):
         form = EditListForm(instance = event_list)
         return render(request, 'home/detail_list.html', {'form':form, 'list':event_list})
     if request.method == 'POST':
-        form = EditListForm(request.POST, instance = event_list )
+        form = EditListForm(request.POST)
+        print (request.POST)
         if not request.POST.data['users']:
             return render(request, 'home/detail_list.html', {'form':form, 'list':event_list, 'error': 'You should choose at least one user, otherwise delete the list.'})
         form.save()
