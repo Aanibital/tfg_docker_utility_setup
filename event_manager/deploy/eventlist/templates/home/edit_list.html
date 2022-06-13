@@ -1,6 +1,8 @@
 {% extends 'layouts/base.html' %}
 
 {% block content %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.5/js/standalone/selectize.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.5/js/standalone/selectize.min.js" />
 <div class="container-fluid">
     <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
         <div class="card">
@@ -27,5 +29,7 @@
     </div>
 </div>
 
-
+<script>
+    $(function () {$("select").selectize({create: false});});
+</script>
 {% endblock content %}
