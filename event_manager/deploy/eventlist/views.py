@@ -197,6 +197,14 @@ def detail_event(request, list_name, event_id):
     if request.method == 'POST':
         form = EditEventForm(request.POST, instance = event)
         form.save()
+        event = get_object_or_404(Event, id = event_id)
+        if 'completed' in request.POST :
+            event.completed = True
+            event.save()
+        else:
+            event.completed = False
+            event.save()
+
     return redirect('list_events', list_name = event_list.name) 
 
 @login_required(login_url='/accounts/login/')
