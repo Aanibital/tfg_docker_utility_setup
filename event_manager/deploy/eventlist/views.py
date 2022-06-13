@@ -181,7 +181,7 @@ def delete_list(request, list_name):
     return redirect('list_event_lists')
 
 @login_required(login_url='/accounts/login/')
-def edit_list(request, list_name):
+def detail_list(request, list_name):
 
     event_list = get_object_or_404(EventList, name = list_name)
     user, created = User.objects.get_or_create(user=request.user)
@@ -191,11 +191,12 @@ def edit_list(request, list_name):
 
     if request.method == 'GET':
         form = EditListForm(instance = event_list)
-        return render(request, 'home/edit_list.html', {'form':form, 'list':event_list})
+        return render(request, 'home/detail_list.html', {'form':form, 'list':event_list})
     if request.method == 'POST':
-        form = EditListForm(request.POST, instance = event_list)
-        if form.is_valid():
-            form.save()
+        form = EditListForm(request.POST, instance = event_list )
+        if not request.POST.data['users']:
+            return render(request, 'home/detail_list.html', {'form':form, 'list':event_list, 'error': 'You should choose at least one user, otherwise delete the list.'})
+        form.save()
     return redirect('list_event_lists')
 
 @login_required(login_url='/accounts/login/')
