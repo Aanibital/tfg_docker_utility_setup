@@ -7,7 +7,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import EventList
+from .models import EventList, Event
 
 
 class LoginForm(forms.Form):
@@ -95,3 +95,11 @@ class EditListForm(forms.ModelForm):
     class Meta:
         model = EventList
         fields = ['name', 'users']
+
+class EditEventForm(forms.ModelForm):
+
+    description = forms.CharField(required = False, widget=forms.Textarea())
+
+    class Meta:
+        model = Event
+        fields = ['name', 'description', 'date']

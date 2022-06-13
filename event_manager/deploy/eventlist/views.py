@@ -11,7 +11,7 @@ from rest_framework import viewsets
 from rest_framework import permissions
 
 # Event list imports
-from .forms import LoginForm, SignUpForm, addEventForm, addListForm, EditListForm
+from .forms import LoginForm, SignUpForm, addEventForm, addListForm, EditListForm, EditEventForm
 from .models import User, Event, EventList
 from .serializers import EventListSerializer, EventSerializer
 
@@ -114,25 +114,6 @@ def detail_event_list(request, list_name):
 
 
 @login_required(login_url='/accounts/login/')
-def detail_event(request, list_name, event_id):
-
-    event_list = get_object_or_404(EventList, name = list_name)
-    event = get_object_or_404(Event, id = event_id)
-
-    if event.event_list != event_list:
-        return render(request,'home/404.html')
-
-    if request.method == "GET":  
-        return render(
-            request,
-            'home/event_detail.html',
-            {
-                "list": event_list,
-                "event": event,
-            }
-        )
-
-@login_required(login_url='/accounts/login/')
 def profile(request):
 
     user, created = User.objects.get_or_create(user=request.user)
@@ -191,12 +172,32 @@ def detail_list(request, list_name):
         form = EditListForm(instance = event_list)
         return render(request, 'home/detail_list.html', {'form':form, 'list':event_list})
     if request.method == 'POST':
-        form = EditListForm(request.POST)
-        print (request.POST)
-        if not request.POST.data['users']:
+        form = EditListForm(request.POST, instance = event_list)
+        if 'users' not in request.POST:
             return render(request, 'home/detail_list.html', {'form':form, 'list':event_list, 'error': 'You should choose at least one user, otherwise delete the list.'})
         form.save()
     return redirect('list_event_lists')
+
+@login_required(login_url='/accounts/login/')
+def detail_event(request, list_name, event_id):
+
+    event_list = get_object_or_404(EventList, name = list_name)
+    event = get_object_or_404(Event, id = event_id)
+    user, created = User.objects.get_or_create(user=request.user)
+
+    if created or not event_list.users.filter(id=user.id).exists():
+        return render(request, 'home/403.html')
+
+    if event.event_list.id != event_list.id:
+        return render(request, 'home/403.html')
+
+    if request.method == 'GET':
+        form = EditEventForm(instance = event)
+        return render(request, 'home/event_detail.html', {'form':form, 'event':event})
+    if request.method == 'POST':
+        form = EditEventForm(request.POST, instance = event)
+        form.save()
+    return redirect('list_events', list_name = event_list.name) 
 
 @login_required(login_url='/accounts/login/')
 def delete_event(request, list_name, event_id):

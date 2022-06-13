@@ -1,2 +1,36 @@
-<h1>{{event.name}}</h1>
-<p>{{event.description}}</p>
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <h3 class="text-center">{{event.name}}</h3>
+                </div>
+            </div>    
+            <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                    <form method="post">{% csrf_token %}
+                        <div class="form-group">
+                            <label>Name</label>
+                            {{form.name}}
+                        </div>
+                        <div class="form-group">
+                            <label>Date</label>
+                            {{form.date}}
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            {{form.description}}
+                        </div>  
+                        <div class="row">
+                            <button type="submit" value="Submit" class="text-uppercase btn bg-gradient-primary w-100">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

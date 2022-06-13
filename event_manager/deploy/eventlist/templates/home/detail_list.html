@@ -14,7 +14,7 @@
                     <p style="color: #ea0606;">{{ error }}</p>
                 {% endif %}
                 <div class="row d-flex justify-content-center">
-                    <form action="/events/" method="post">{% csrf_token %}
+                    <form method="post">{% csrf_token %}
                         <div class="form-group">
                             <label>Name</label>
                             {{form.name}}
