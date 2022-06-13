@@ -29,6 +29,9 @@ def login_view(request):
             password = form.cleaned_data.get("password")
             user = authenticate(username=username, password=password)
 
+            if user is None:
+                return render(request, "accounts/login.html", {"form": form, "msg": 'Invalid credentials'})
+
             # If is the first time a user logs create his profile
             try:
                 profile = User.objects.all().get(user = user)
@@ -36,15 +39,10 @@ def login_view(request):
                 profile = User(user = user)
                 profile.save()
 
-            if user is not None:
-                login(request, user)
-                return redirect('list_event_lists')
-            else:
-                msg = 'Invalid credentials'
-        else:
-            msg = 'Error validating the form'
+            login(request, user)
+            return redirect('list_event_lists')
 
-    return render(request, "accounts/login.html", {"form": form, "msg": msg})
+    return render(request, "accounts/login.html", {"form": form, "msg": 'Error validating the form'})
 
 def index(request):
     return render(request,"home/index.html")

@@ -9,18 +9,32 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=Salamanca2022AnibalTFG
+    networks:
+      - default
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000 --insecure
     volumes:
       - .:/code
-    ports:
-      - "8000:8000"
     environment:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=Salamanca2022AnibalTFG
     depends_on:
       - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefiknet"
 
-
+      - "traefik.http.routers.web-app.rule=Host(`anibaltfg.es`)"
+      - "traefik.http.routers.web-app.entrypoints=websecure"
+      - "traefik.http.routers.web-app.tls.certresolver=myhttpchallenge"
+      - "traefik.http.routers.web-app.service=web-app"
+      - "traefik.http.services.web-app.loadbalancer.server.port=8000"
+    networks:
+      - traefiknet
+      - default
+networks:
+  traefiknet:
+    external: true
+  default:
