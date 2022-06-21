@@ -114,3 +114,4 @@ class EditEventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ['name', 'description', 'date']
+

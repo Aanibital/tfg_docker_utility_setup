@@ -1,6 +1,7 @@
 # Django imports
 from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User as DjangoUser
 from django.core.exceptions import ObjectDoesNotExist
@@ -68,6 +69,8 @@ def list_event_lists(request):
         )
     
     if request.method == 'POST':
+        if not request.user.has_perm('eventlist.add_eventlist'):
+            return render(request,"home/403.html")
         form = addListForm(request.POST)
         if form.is_valid():
             event_list = EventList(
@@ -82,13 +85,14 @@ def list_event_lists(request):
 @login_required(login_url='/accounts/login/')
 def detail_event_list(request, list_name):
 
-    user = User.objects.get_or_create(user=request.user)
+
+    user, created = User.objects.get_or_create(user=request.user)
     event_list = get_object_or_404(EventList, name = list_name)
 
-    if user in event_list.users.all():
+    if user not in event_list.users.all():
         return render(request,"home/403.html")
 
-    if request.method == 'GET':    
+    if request.method == 'GET': 
         form = addEventForm()
         return render(
             request,
@@ -100,6 +104,8 @@ def detail_event_list(request, list_name):
         )
 
     if request.method == 'POST':
+        if not request.user.has_perm('eventlist.add_event'):
+            return render(request,"home/403.html")
         form = addEventForm(request.POST)
         if form.is_valid():
             event = Event(
@@ -118,19 +124,30 @@ def profile(request):
 
     user, created = User.objects.get_or_create(user=request.user)
 
-    if request.method == "GET":
-       
+    if request.method == 'GET':
         return render(
             request,
-            "home/profile.html",
+            'home/profile.html',
             {
-                "profile": user,
+                'change_password_form':PasswordChangeForm(request.user),
+                'profile': user,
+                'events':Event.objects.all().filter(creator = user).order_by('-creation_date')
             }
         )
+    if request.method == 'POST':
+        if not request.user.has_perm('eventlist.change_user'):
+            return render(request,"home/403.html")
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('profile')
 
 @login_required(login_url='/accounts/login/')
 def delete_list_confirmation(request, list_name):
     
+    if not request.user.has_perm('eventlist.delete_eventlist'):
+            return render(request,"home/403.html")
     event_list = get_object_or_404(EventList, name = list_name)
     user, created = User.objects.get_or_create(user=request.user)
 
@@ -150,6 +167,8 @@ def delete_list_confirmation(request, list_name):
 @login_required(login_url='/accounts/login/')
 def delete_list(request, list_name):
 
+    if not request.user.has_perm('eventlist.delete_eventlist'):
+            return render(request,"home/403.html")
     event_list = get_object_or_404(EventList, name = list_name)
     user, created = User.objects.get_or_create(user=request.user)
 
@@ -162,6 +181,8 @@ def delete_list(request, list_name):
 @login_required(login_url='/accounts/login/')
 def detail_list(request, list_name):
 
+    if not request.user.has_perm('eventlist.change_eventlist'):
+            return render(request,"home/403.html")
     event_list = get_object_or_404(EventList, name = list_name)
     user, created = User.objects.get_or_create(user=request.user)
 
@@ -181,6 +202,8 @@ def detail_list(request, list_name):
 @login_required(login_url='/accounts/login/')
 def detail_event(request, list_name, event_id):
 
+    if not request.user.has_perm('eventlist.change_event'):
+        return render(request,"home/403.html")
     event_list = get_object_or_404(EventList, name = list_name)
     event = get_object_or_404(Event, id = event_id)
     user, created = User.objects.get_or_create(user=request.user)
@@ -210,6 +233,8 @@ def detail_event(request, list_name, event_id):
 @login_required(login_url='/accounts/login/')
 def delete_event(request, list_name, event_id):
     
+    if not request.user.has_perm('eventlist.delete_event'):
+        return render(request,"home/403.html")
     event_list = get_object_or_404(EventList, name = list_name)
     event = get_object_or_404(Event, id = event_id)
     user, created = User.objects.get_or_create(user=request.user)
@@ -224,8 +249,9 @@ def delete_event(request, list_name, event_id):
 
 @login_required(login_url='/accounts/login/')
 def check_event(request, list_name, event_id):
-    # TODO:Check for the permission and membership of the user 
-
+    
+    if not request.user.has_perm('eventlist.change_event'):
+        return render(request,"home/403.html")
     event_list = get_object_or_404(EventList, name = list_name)
     event = get_object_or_404(Event, id = event_id)
     user, created = User.objects.get_or_create(user=request.user)
